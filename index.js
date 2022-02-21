@@ -1,17 +1,26 @@
 const express = require("express");
-const app = express();
-const dotEnv = require("dotenv");
 const mongoose = require("mongoose");
+const dotEnv = require("dotenv");
+const authRoute = require("./routes/auth");
+const userRoute = require("./routes/users");
 
+//initializing app
+const app = express();
+app.use(express.json());
+
+//defining URI key
 dotEnv.config();
 
-mongoose.connect(process.env.MONGO_URL)
-	.then(console.log("Connected 8x"))
+//Database connectivity by mongoose
+mongoose.connect(process.env.MONGO_URI) //will return promise
+	.then(() => console.log("Connected to DB successfully"))
 	.catch(err => console.log(err));
 
 
-console.log("Running Now")
+
+app.use("/api/auth", authRoute);
+app.use("/api/users", userRoute);
 
 app.listen("5000", () => {
-	console.log("backend is running")
+	console.log("Starting server at http://localhost:5000")
 })
