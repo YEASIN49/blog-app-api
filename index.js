@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const dotEnv = require("dotenv");
 const authRoute = require("./routes/auth");
 const userRoute = require("./routes/users");
+const postRoute = require("./routes/posts");
 
 //initializing app
 const app = express();
@@ -20,6 +21,7 @@ mongoose.connect(process.env.MONGO_URI) //will return promise
 
 app.use("/api/auth", authRoute);
 app.use("/api/users", userRoute);
+app.use("/api/posts", postRoute);
 
 app.listen("5000", () => {
 	console.log("Starting server at http://localhost:5000")
