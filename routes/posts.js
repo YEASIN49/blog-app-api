@@ -73,4 +73,40 @@ router.delete("/:id", async (req, res) => {
 	}
 })
 
+// GET POST
+router.get("/:postId", async (req, res) => {
+	try {
+		const post = await Post.findById(req.params.postId);
+		const { password, ...otherInfo } = post._doc;
+		res.status(200).json(otherInfo);
+	} catch (error) {
+		res.status(500).json(error)
+	}
+})
+
+// GET ALL POST
+router.get("/", async (req, res) => {
+	const username = req.query.user;
+	const categoryName = req.query.categoryName;
+	try {
+		let requiredPost;
+		if (username) {
+			requiredPost = await Post.find({ username });
+		}
+		else if (categoryName) {
+			requiredPost = await Post.find({
+				categories: {
+					$in: [categoryName]
+				}
+			});
+		}
+		else {
+			requiredPost = await Post.find();
+		}
+		res.status(200).json(requiredPost);
+	} catch (error) {
+		res.status(500).json(error);
+	}
+})
+
 module.exports = router;
