@@ -22,7 +22,11 @@ const PostSchema = new mongoose.Schema(
 		categories: {
 			type: Array,
 			required: false
-		}
+		},
+		// updatedDate: {
+		// 	type: Date,
+		// 	required: true
+		// }
 	},
 	{
 		timestamps: true

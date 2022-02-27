@@ -5,6 +5,7 @@ const Post = require("../models/Post");
 // CREATE POST
 router.post("/", async (req, res) => {
 	const newPost = new Post(req.body);
+	// newPost.updatedPost = new Date();
 	try {
 		const postAuthor = await User.findOne({ username: newPost.username });
 		// console.log(postAuthor);
@@ -87,7 +88,7 @@ router.get("/:postId", async (req, res) => {
 // GET ALL POST
 router.get("/", async (req, res) => {
 	const username = req.query.user;
-	const categoryName = req.query.categoryName;
+	const categoryName = req.query.category;
 	try {
 		let requiredPost;
 		if (username) {
