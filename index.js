@@ -6,6 +6,7 @@ const userRoute = require("./routes/users");
 const postRoute = require("./routes/posts");
 const categoryRoute = require("./routes/categories");
 const multer = require("multer");
+const path = require("path");
 
 
 
@@ -28,7 +29,8 @@ const imageStorage = multer.diskStorage({
 	destination: (req, file, callback) => {
 		callback(null, "images")
 	}, filename: (req, file, callback) => {
-		callback(null, req.body.name);
+		console.log(req.body.filename);
+		callback(null, req.body.filename);
 	}
 })
 
@@ -38,13 +40,14 @@ const uploadImage = multer({
 });
 
 
-app.use("/api/upload", uploadImage.single("file"), (req, res) => {
+app.use("/api/upload", uploadImage.single("post_photo"), (req, res) => {
 	res.status(200).json("File Uploaded");
 })
 app.use("/api/auth", authRoute);
 app.use("/api/users", userRoute);
 app.use("/api/posts", postRoute);
 app.use("/api/categories", categoryRoute);
+app.use("/images",express.static(path.join(__dirname,"/images")));
 
 app.listen("5000", () => {
 	console.log("Starting server at http://localhost:5000")
